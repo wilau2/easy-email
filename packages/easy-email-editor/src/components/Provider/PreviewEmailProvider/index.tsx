@@ -6,6 +6,7 @@ import { JsonToMjml } from 'easy-email-core';
 import { cloneDeep, isString } from 'lodash';
 import mjml from 'mjml-browser';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import DOMPurify from 'dompurify';
 
 export const MOBILE_WIDTH = 320;
 
@@ -114,7 +115,12 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
   useEffect(() => {
     if (!contentWindowRef.current) return;
     const innerBody = contentWindowRef.current.document.body;
-    innerBody.innerHTML = html;
+    innerBody.innerHTML = DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'hr', 's', 'sub', 'sup', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'img'],
+      ALLOWED_ATTR: ['href', 'target', 'style', 'class', 'src', 'alt', 'width', 'height'],
+      ALLOW_DATA_ATTR: false,
+      SAFE_FOR_TEMPLATES: true,
+    });
     const a = innerBody.querySelector('.mjml-body') as HTMLElement;
     if (a) {
       a.style.display = 'inline-block';

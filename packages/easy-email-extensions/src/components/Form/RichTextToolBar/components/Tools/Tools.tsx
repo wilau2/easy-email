@@ -23,6 +23,7 @@ import { Italic } from '../Italic';
 import { Bold } from '../Bold';
 import { FontSize } from '../FontSize';
 import { RICH_TEXT_TOOL_BAR } from '@extensions/constants';
+import DOMPurify from 'dompurify';
 
 export interface ToolsProps {
   onChange: (content: string) => any;
@@ -89,7 +90,11 @@ export function Tools(props: ToolsProps) {
       const contenteditableElement = getShadowRoot().activeElement;
       if (contenteditableElement?.getAttribute('contenteditable') === 'true') {
         const html = getShadowRoot().activeElement?.innerHTML || '';
-        props.onChange(html);
+        props.onChange(DOMPurify.sanitize(html, {
+          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'hr', 's', 'sub', 'sup'],
+          ALLOWED_ATTR: ['href', 'target', 'style', 'class'],
+          ALLOW_DATA_ATTR: false,
+        }));
       }
     },
     [
@@ -108,7 +113,11 @@ export function Tools(props: ToolsProps) {
       const contenteditableElement = getShadowRoot().activeElement;
       if (contenteditableElement?.getAttribute('contenteditable') === 'true') {
         const html = getShadowRoot().activeElement?.innerHTML || '';
-        props.onChange(html);
+        props.onChange(DOMPurify.sanitize(html, {
+          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'hr', 's', 'sub', 'sup'],
+          ALLOWED_ATTR: ['href', 'target', 'style', 'class'],
+          ALLOW_DATA_ATTR: false,
+        }));
       }
     },
     [props.onChange],

@@ -5,6 +5,7 @@ import { createBlock } from '@core/utils/createBlock';
 import { merge } from 'lodash';
 import { t } from '@core/utils';
 import { BasicBlock } from '@core/components/BasicBlock';
+import { sanitizeBlockContent } from '@core/utils/sanitizeBlockContent';
 
 export type IAccordionTitle = IBlockData<
   {
@@ -42,7 +43,7 @@ export const AccordionTitle: IBlock = createBlock({
   render(params) {
     return (
       <BasicBlock params={params} tag='mj-accordion-title'>
-        {params.data.data.value.content}
+        {sanitizeBlockContent(params.data.data.value.content)}
       </BasicBlock>
     );
   },

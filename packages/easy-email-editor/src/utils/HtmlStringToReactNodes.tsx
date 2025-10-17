@@ -6,6 +6,7 @@ import {
 } from 'easy-email-core';
 import { camelCase } from 'lodash';
 import React from 'react';
+import DOMPurify from 'dompurify';
 import { isTextBlock } from './isTextBlock';
 import { MergeTagBadge } from './MergeTagBadge';
 import {
@@ -44,7 +45,12 @@ export function HtmlStringToReactNodes(
     const editNode = child.querySelector('div');
     if (editNode) {
       if (option.enabledMergeTagsBadge) {
-        editNode.innerHTML = MergeTagBadge.transform(editNode.innerHTML);
+        editNode.innerHTML = DOMPurify.sanitize(MergeTagBadge.transform(editNode.innerHTML), {
+          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'hr', 's', 'sub', 'sup', 'input'],
+          ALLOWED_ATTR: ['href', 'target', 'style', 'class', 'type', 'value', 'id'],
+          ALLOW_DATA_ATTR: false,
+          SAFE_FOR_TEMPLATES: true,
+        });
       }
     }
   });
@@ -92,7 +98,7 @@ const RenderReactNode = React.memo(function ({
       return createElement(tagName, {
         key: index,
         ...attributes,
-        dangerouslySetInnerHTML: { __html: node.textContent },
+        dangerouslySetInnerHTML: { __html: DOMPurify.sanitize(node.textContent || '') },
       });
     }
 
@@ -111,7 +117,12 @@ const RenderReactNode = React.memo(function ({
         key: performance.now(),
         ...attributes,
         style: getStyle(node.getAttribute('style')),
-        dangerouslySetInnerHTML: { __html: node.innerHTML },
+        dangerouslySetInnerHTML: { __html: DOMPurify.sanitize(node.innerHTML, {
+          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'hr', 's', 'sub', 'sup'],
+          ALLOWED_ATTR: ['href', 'target', 'style', 'class'],
+          ALLOW_DATA_ATTR: false,
+          SAFE_FOR_TEMPLATES: true,
+        }) },
       });
     }
 

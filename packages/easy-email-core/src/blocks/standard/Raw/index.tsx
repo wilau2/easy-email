@@ -5,6 +5,7 @@ import { createBlock } from '@core/utils/createBlock';
 import { merge } from 'lodash';
 import { t } from '@core/utils';
 import { BasicBlock } from '@core/components/BasicBlock';
+import { sanitizeBlockContent } from '@core/utils/sanitizeBlockContent';
 
 export type IRaw = IBlockData<{}, { content: string }>;
 
@@ -40,7 +41,7 @@ export const Raw = createBlock<IRaw>({
         params={params}
         tag='mj-raw'
       >
-        {params.data.data.value.content}
+        {sanitizeBlockContent(params.data.data.value.content)}
       </BasicBlock>
     );
   },

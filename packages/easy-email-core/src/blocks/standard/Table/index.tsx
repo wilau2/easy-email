@@ -5,6 +5,7 @@ import { createBlock } from '@core/utils/createBlock';
 import { merge } from 'lodash';
 import { BasicBlock } from '@core/components/BasicBlock';
 import { t } from '@core/utils';
+import { sanitizeBlockContent } from '@core/utils/sanitizeBlockContent';
 
 export type ITable = IBlockData<{}, { content: string }>;
 
@@ -34,7 +35,7 @@ export const Table = createBlock<ITable>({
         params={params}
         tag='mj-table'
       >
-        {data.data.value.content}
+        {sanitizeBlockContent(data.data.value.content)}
       </BasicBlock>
     );
   },

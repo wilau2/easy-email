@@ -5,6 +5,7 @@ import { createBlock } from '@core/utils/createBlock';
 import { merge } from 'lodash';
 import { BasicBlock } from '@core/components/BasicBlock';
 import { t } from '@core/utils';
+import { sanitizeBlockContent } from '@core/utils/sanitizeBlockContent';
 
 export type IText = IBlockData<
   {
@@ -57,7 +58,7 @@ export const Text = createBlock<IText>({
         params={params}
         tag='mj-text'
       >
-        {data.data.value.content}
+        {sanitizeBlockContent(data.data.value.content)}
       </BasicBlock>
     );
   },

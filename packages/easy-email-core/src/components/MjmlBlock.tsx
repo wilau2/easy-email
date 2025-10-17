@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { BlockManager } from '@core/utils';
 import { IBlockData, RecursivePartial } from '@core/typings';
+import DOMPurify from 'dompurify';
 import { set } from 'lodash';
 import { useEmailRenderContext } from '@core/utils/JsonToMjml';
 
@@ -28,14 +29,22 @@ export default function MjmlBlock<T extends IBlockData>({
 
   const mergeValue = useMemo((): undefined | {} => {
     if (typeof children === 'string') {
+      const sanitizedContent = DOMPurify.sanitize(children);
       if (!value) {
         return {
-          content: children,
+          content: sanitizedContent,
         };
       } else {
-        set(value, 'content', children);
+        set(value, 'content', sanitizedContent);
         return value;
       }
+    }
+
+    // Sanitize content in value if it exists
+    if (value && typeof (value as any).content === 'string') {
+      const clonedValue = { ...value };
+      set(clonedValue, 'content', DOMPurify.sanitize((value as any).content));
+      return clonedValue;
     }
 
     return value;
