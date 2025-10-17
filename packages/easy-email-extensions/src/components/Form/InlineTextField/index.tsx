@@ -28,9 +28,6 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
       if (contentEditableType === ContentEditableType.RichText) {
         onChange(DOMPurify.sanitize(e.target.innerHTML || ''));
       } else if (contentEditableType === ContentEditableType.Text) {
-        // For plain text, only get text/plain
-        const text = e.clipboardData?.getData('text/plain') || '';
-        document.execCommand('insertText', false, text);
         onChange(e.target.textContent?.trim() || '');
       }
     };
