@@ -10,7 +10,6 @@ import { IEmailTemplate } from 'easy-email-editor';
 import { JsonToMjml } from 'easy-email-core';
 import { useCreateEmailTemplateMutation } from '@/client/hooks';
 import { Liquid } from 'liquidjs';
-import DOMPurify from 'dompurify';
 
 const grid = '2vw';
 const MOBILE_WIDTH = 375;
@@ -186,7 +185,7 @@ function EmailItem({ item, isMobile }: { item: IEmailTemplate; isMobile: boolean
               borderRadius: isMobile ? 30 : 0,
             }}
           >
-            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }}></div>
+            <div dangerouslySetInnerHTML={{ __html: html }}></div>
             <style>{`
                   *::-webkit-scrollbar {
                     -webkit-appearance: none;
