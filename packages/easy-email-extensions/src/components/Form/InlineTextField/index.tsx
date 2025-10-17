@@ -22,7 +22,9 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
     const onPaste = (e: ClipboardEvent) => {
       if (!(e.target instanceof Element) || !e.target.getAttribute('contenteditable')) return;
       e.preventDefault();
-
+      const html = e.clipboardData?.getData('text/html') || e.clipboardData?.getData('text/plain') || '';
+      const sanitizedHtml = DOMPurify.sanitize(html);
+      document.execCommand('insertHTML', false, sanitizedHtml);
       const contentEditableType = e.target.getAttribute(DATA_CONTENT_EDITABLE_TYPE);
 
       if (contentEditableType === ContentEditableType.RichText) {
@@ -34,8 +36,7 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
 
     const onInput = (e: Event) => {
       if (e.target instanceof Element && e.target.getAttribute('contenteditable')) {
-        const text = e.clipboardData?.getData('text/plain') || '';
-        document.execCommand('insertHTML', false, text);
+
         const contentEditableType = e.target.getAttribute(DATA_CONTENT_EDITABLE_TYPE);
         if (contentEditableType === ContentEditableType.RichText) {
           onChange(DOMPurify.sanitize(e.target.innerHTML || ''));
