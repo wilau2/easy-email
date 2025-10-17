@@ -34,7 +34,8 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
 
     const onInput = (e: Event) => {
       if (e.target instanceof Element && e.target.getAttribute('contenteditable')) {
-
+        const text = e.clipboardData?.getData('text/plain') || '';
+        document.execCommand('insertHTML', false, text);
         const contentEditableType = e.target.getAttribute(DATA_CONTENT_EDITABLE_TYPE);
         if (contentEditableType === ContentEditableType.RichText) {
           onChange(DOMPurify.sanitize(e.target.innerHTML || ''));
