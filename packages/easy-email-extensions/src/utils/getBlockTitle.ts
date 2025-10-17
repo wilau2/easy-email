@@ -1,5 +1,4 @@
 import { BlockManager, IBlockData, BasicType } from 'easy-email-core';
-import DOMPurify from 'dompurify';
 
 const tempEle = document.createElement('div');
 export function getBlockTitle(
@@ -12,7 +11,7 @@ export function getBlockTitle(
     isFromContent &&
     (blockData.type === BasicType.TEXT || blockData.type === BasicType.BUTTON)
   ) {
-    tempEle.innerHTML = DOMPurify.sanitize(blockData.data.value.content);
+    tempEle.innerHTML = blockData.data.value.content;
     return tempEle.innerText;
   }
 

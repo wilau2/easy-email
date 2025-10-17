@@ -5,7 +5,6 @@ import { createBlock } from '@core/utils/createBlock';
 import { merge } from 'lodash';
 import { BasicBlock } from '@core/components/BasicBlock';
 import { t } from '@core/utils';
-import { sanitizeBlockContent } from '@core/utils/sanitizeBlockContent';
 
 export type IButton = IBlockData<
   {
@@ -77,7 +76,7 @@ export const Button = createBlock<IButton>({
         params={params}
         tag='mj-button'
       >
-        {sanitizeBlockContent(data.data.value.content)}
+        {data.data.value.content}
       </BasicBlock>
     );
   },

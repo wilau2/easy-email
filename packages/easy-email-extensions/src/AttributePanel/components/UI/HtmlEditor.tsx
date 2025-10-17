@@ -3,7 +3,6 @@ import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import { BasicType, IText } from 'easy-email-core';
 import { Stack, TextStyle, useBlock, useEditorContext, useFocusIdx } from 'easy-email-editor';
 import { ShadowDom } from '@extensions/components/ShadowDom';
-import DOMPurify from 'dompurify';
 
 const CodeMirrorEditorPromise = import(
   '../../../components/Form/CodemirrorEditor'
@@ -112,10 +111,10 @@ export const HtmlEditor: React.FC<{
           >
             {isTable ? (
               <table>
-                <tbody dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content || '') }} />
+                <tbody dangerouslySetInnerHTML={{ __html: content }} />
               </table>
             ) : (
-              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content || '') }} />
+              <div dangerouslySetInnerHTML={{ __html: content }} />
             )}
           </ShadowDom>
         </div>

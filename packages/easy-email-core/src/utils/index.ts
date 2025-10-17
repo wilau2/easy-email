@@ -13,5 +13,4 @@ export { TemplateEngineManager } from './TemplateEngineManager';
 export { isAdvancedBlock } from './isAdvancedBlock';
 export { I18nManager, t } from './I18nManager';
 export { getAdapterAttributesString } from './getAdapterAttributesString';
-export { sanitizeBlockContent } from './sanitizeBlockContent';
 export * from './block';

@@ -1,6 +1,5 @@
 import { camelCase } from 'lodash';
 import React from 'react';
-import DOMPurify from 'dompurify';
 import { getNodeTypeFromClassName } from 'easy-email-core';
 
 const domParser = new DOMParser();
@@ -52,7 +51,7 @@ const RenderReactNode = React.memo(function ({
       return React.createElement(tagName, {
         key: index,
         ...attributes,
-        dangerouslySetInnerHTML: { __html: DOMPurify.sanitize(node.textContent || '') },
+        dangerouslySetInnerHTML: { __html: node.textContent },
       });
     }
 
@@ -63,7 +62,7 @@ const RenderReactNode = React.memo(function ({
         key: performance.now(),
         ...attributes,
         style: getStyle(node.getAttribute('style')),
-        dangerouslySetInnerHTML: { __html: DOMPurify.sanitize(node.innerHTML) },
+        dangerouslySetInnerHTML: { __html: node.innerHTML },
       });
     }
 
