@@ -90,11 +90,7 @@ export function Tools(props: ToolsProps) {
       const contenteditableElement = getShadowRoot().activeElement;
       if (contenteditableElement?.getAttribute('contenteditable') === 'true') {
         const html = getShadowRoot().activeElement?.innerHTML || '';
-        props.onChange(DOMPurify.sanitize(html, {
-          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'hr', 's', 'sub', 'sup'],
-          ALLOWED_ATTR: ['href', 'target', 'style', 'class'],
-          ALLOW_DATA_ATTR: false,
-        }));
+        props.onChange(DOMPurify.sanitize(html));
       }
     },
     [
@@ -113,11 +109,7 @@ export function Tools(props: ToolsProps) {
       const contenteditableElement = getShadowRoot().activeElement;
       if (contenteditableElement?.getAttribute('contenteditable') === 'true') {
         const html = getShadowRoot().activeElement?.innerHTML || '';
-        props.onChange(DOMPurify.sanitize(html, {
-          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'hr', 's', 'sub', 'sup'],
-          ALLOWED_ATTR: ['href', 'target', 'style', 'class'],
-          ALLOW_DATA_ATTR: false,
-        }));
+        props.onChange(DOMPurify.sanitize(html));
       }
     },
     [props.onChange],
